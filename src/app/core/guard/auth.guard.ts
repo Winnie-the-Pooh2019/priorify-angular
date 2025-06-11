@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): boolean | UrlTree {
-        if (this.authService.getCredentials()) {
+        if (this.authService.isLoggedIn()) {
             return true;
         }
 

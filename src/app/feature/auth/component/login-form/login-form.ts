@@ -1,7 +1,13 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../service/auth.service';
 import {Router} from '@angular/router';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {AuthRepository} from '../../repository/auth.repository';
+import {MockAuthRepository} from '../../repository/mock-auth.repository';
 
 @Component({
     selector: 'app-login-form',
@@ -30,6 +36,8 @@ export class LoginForm {
             this.loginForm.value.password!!
         );
 
-        this.router.navigate(['/']);
+        this.router.navigate(['/']).then(() => {
+            console.log('logged in');
+        });
     }
 }

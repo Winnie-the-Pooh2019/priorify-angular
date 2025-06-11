@@ -2,6 +2,8 @@ import {inject, Injectable} from '@angular/core';
 import {AuthRepository} from '../repository/auth.repository';
 import {StorageService} from '../../../shared/services/storage.service';
 import {UserCredentials} from '../model/user-credentials';
+import {NoRefreshTokenError} from '../error/no-refresh-token.error';
+import {NoAccessTokenError} from '../error/no-access-token.error';
 
 @Injectable({
     providedIn: 'root'
@@ -12,37 +14,88 @@ export class AuthService {
 
     redirectUrl = '';
 
-    async login(email: string, password: string) {
+    async login(email: string, password: string): Promise<UserCredentials> {
         const loginResponse = await this.authRepository.login({email, password});
 
         this.setCredentials(
-            loginResponse.access_token,
-            loginResponse.refresh_token,
-            loginResponse.token_type
+            loginResponse.accessToken,
+            loginResponse.refreshToken,
+            loginResponse.expiresIn
         );
+
+        return this.getCredentials()!!;
     }
 
-    getAccessToken(): string {
-        const credentials = this.getCredentials();
+    async refresh(): Promise<UserCredentials> {
+        const refreshToken = this.getCredentials()?.refreshToken
 
-        if (credentials) {
-            return credentials.accessToken;
+        if (refreshToken) {
+            const loginResponse = await this.authRepository.refresh({refreshToken});
+
+            this.setCredentials(
+                loginResponse.accessToken,
+                loginResponse.refreshToken,
+                loginResponse.expiresIn
+            );
+
+            return this.getCredentials()!!;
         }
 
-        return '';
+        throw new NoRefreshTokenError();
     }
 
-    private setCredentials(accessToken: string, refreshToken: string, tokenType: string) {
+    async logout() {
+        await this.authRepository.logout();
+
+        this.removeCredentials();
+    }
+
+    isLoggedIn(): boolean {
+        const credentials = this.getCredentials();
+
+        if (!credentials) {
+            return false;
+        }
+
+        return Date.now() < credentials.issuedAt + credentials.expiresIn;
+    }
+
+    private setCredentials(accessToken: string, refreshToken: string, expiresIn: number) {
         const userCredentials: UserCredentials = {
             accessToken: accessToken,
             refreshToken: refreshToken,
-            tokenType: tokenType
+            issuedAt: Date.now(),
+            expiresIn: expiresIn * 1000
         };
 
         this.storageService.setItem('credentials', userCredentials);
     }
 
-    getCredentials(): UserCredentials | null {
+    private getCredentials(): UserCredentials | null {
         return this.storageService.getItem('credentials');
+    }
+
+    private removeCredentials() {
+        this.storageService.removeItem('credentials');
+    }
+
+    getAccessToken(): string | null {
+        const credentials = this.getCredentials();
+
+        if (!credentials) {
+            return null;
+        }
+
+        return credentials.accessToken;
+    }
+
+    getRefreshToken(): string | null {
+        const credentials = this.getCredentials();
+
+        if (!credentials) {
+            return null;
+        }
+
+        return credentials.refreshToken;
     }
 }

@@ -1,5 +1,6 @@
 export interface UserCredentials {
     accessToken: string;
-    refreshToken?: string;
-    tokenType: string;
+    refreshToken: string;
+    issuedAt: number;
+    expiresIn: number;
 }
