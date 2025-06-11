@@ -9,9 +9,7 @@ interface UserDao {
     password: string
 }
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class MockAuthRepository {
     private userCollection: Array<UserDao> = [
         {

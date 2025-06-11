@@ -14,6 +14,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import {Routes} from '@angular/router';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CurrencyPipe, DatePipe, DecimalPipe, UpperCasePipe} from '@angular/common';
+import {LoginForm} from './feature/auth/component/login-form/login-form';
 
 @Component({
     selector: 'app-home',
@@ -71,10 +72,10 @@ export class ReversePipe implements PipeTransform {
 @Component({
     selector: 'app-root',
     template: `
-        Reverse Machine: {{ word | reverse | uppercase }}
+
+        <router-outlet/>
     `,
-    imports: [ReversePipe, UpperCasePipe],
+    imports: [RouterOutlet],
 })
 export class App {
-    word = 'You are a champion';
 }
