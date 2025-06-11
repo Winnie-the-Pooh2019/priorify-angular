@@ -13,12 +13,14 @@ export class AuthGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): boolean | UrlTree {
-        if (this.authService.getAccessToken() !== '') {
+        if (this.authService.getCredentials()) {
             return true;
         }
 
-        return this.router.createUrlTree(['/login'], {
-            queryParams: { returnUrl: state.url }
-        });
+        this.authService.redirectUrl = state.url;
+
+        this.router.navigate(['/login']);
+
+        return false;
     }
 }

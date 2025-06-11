@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {Home, User} from './app';
+import {Home} from './app';
 import {AuthGuard} from './core/guard/auth.guard';
 import {LoginForm} from './feature/auth/component/login-form/login-form';
 
@@ -12,5 +12,9 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginForm
+    },
+    {
+        path: '**',
+        redirectTo: ''
     }
 ];

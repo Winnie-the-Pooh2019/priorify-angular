@@ -1,13 +1,16 @@
 import {inject, Injectable} from '@angular/core';
 import {AuthRepository} from '../repository/auth.repository';
-import {MockAuthRepository} from '../repository/mock-auth.repository';
 import {StorageService} from '../../../shared/services/storage.service';
 import {UserCredentials} from '../model/user-credentials';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AuthService {
     private authRepository = inject(AuthRepository);
     private storageService = inject(StorageService);
+
+    redirectUrl = '';
 
     async login(email: string, password: string) {
         const loginResponse = await this.authRepository.login({email, password});
@@ -39,7 +42,7 @@ export class AuthService {
         this.storageService.setItem('credentials', userCredentials);
     }
 
-    private getCredentials(): UserCredentials | null {
+    getCredentials(): UserCredentials | null {
         return this.storageService.getItem('credentials');
     }
 }

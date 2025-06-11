@@ -24,14 +24,12 @@ export class LoginForm {
     authService = inject(AuthService);
     router = inject(Router);
 
-    hangleLogin() {
-        this.authService.login(
+    async hangleLogin() {
+        await this.authService.login(
             this.loginForm.value.email!!,
             this.loginForm.value.password!!
-        ).then(r => {
-            alert('Successful login');
-            this.router.navigate(['/']);
-        })
-            .catch(reason => alert(`Error occurred: ${reason}`));
+        );
+
+        this.router.navigate(['/']);
     }
 }
