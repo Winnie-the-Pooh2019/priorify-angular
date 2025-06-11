@@ -1,5 +1,5 @@
-import {Component, input} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {Component, input, output, Pipe, PipeTransform} from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 // @Component({
 //   selector: 'app-root',
@@ -11,29 +11,70 @@ import {RouterOutlet} from '@angular/router';
 //   protected title = 'priorify-angular';
 // }
 
+import {Routes} from '@angular/router';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {CurrencyPipe, DatePipe, DecimalPipe, UpperCasePipe} from '@angular/common';
+
+@Component({
+    selector: 'app-home',
+    template: `
+        <div>Home Page</div>
+    `,
+})
+export class Home {
+}
 
 @Component({
     selector: 'app-user',
     template: `
-        <p>The user's name is {{name()}}</p>
+        <label for="framework">
+            {{username}}\'s Favourite Framework:
+            <input id="framework" type="text" [(ngModel)]="favouriteFramework"/>
+        </label>
+        <button (click)="showFramework()">Show Framework</button>
     `,
+    imports: [FormsModule]
 })
 export class User {
-    name = input<string>()
+    username = 'youngTech';
+    favouriteFramework = '';
+
+    showFramework() {
+        alert(this.favouriteFramework);
+    }
+}
+
+@Pipe({
+    name: 'star'
+})
+export class StarPipe implements PipeTransform {
+    transform(value: any): any {
+        return `⭐️ ${value} ⭐️`
+    }
+}
+
+@Pipe({
+    name: 'reverse'
+})
+export class ReversePipe implements PipeTransform {
+    transform(value: string): string {
+        let reverse = '';
+
+        for (let i = value.length - 1; i >= 0; i--) {
+            reverse += value[i];
+        }
+
+        return reverse;
+    }
 }
 
 @Component({
     selector: 'app-root',
     template: `
-        <app-user name="Simran"></app-user>`,
-    imports: [
-        User
-    ]
+        Reverse Machine: {{ word | reverse | uppercase }}
+    `,
+    imports: [ReversePipe, UpperCasePipe],
 })
 export class App {
-    message = '';
-
-    onMouseOver() {
-        this.message = 'Way to go';
-    }
+    word = 'You are a champion';
 }
