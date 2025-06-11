@@ -2,19 +2,27 @@ import {Component, inject, signal} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../service/auth.service';
 import {Router} from '@angular/router';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {AuthRepository} from '../../repository/auth.repository';
-import {MockAuthRepository} from '../../repository/mock-auth.repository';
+
+// Angular Material Modules
+import {MatCardHeader, MatCardModule} from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-login-form',
     imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        CommonModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
     ],
     providers: [
+
         Router,
         AuthService
     ],
@@ -31,6 +39,10 @@ export class LoginForm {
     router = inject(Router);
 
     async hangleLogin() {
+        if (this.loginForm.invalid) {
+            return;
+        }
+
         await this.authService.login(
             this.loginForm.value.email!!,
             this.loginForm.value.password!!
