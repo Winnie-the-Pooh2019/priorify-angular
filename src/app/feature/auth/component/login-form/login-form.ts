@@ -1,5 +1,5 @@
 import {Component, inject, signal} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, NgForm, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../service/auth.service';
 import {Router} from '@angular/router';
 
@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import {ErrorStateMatcher} from '@angular/material/core';
 
 @Component({
     selector: 'app-login-form',
@@ -37,6 +38,13 @@ export class LoginForm {
 
     authService = inject(AuthService);
     router = inject(Router);
+
+    matcher: ErrorStateMatcher = {
+        isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+            const isSubmitted = form && form.submitted;
+            return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+        }
+    };
 
     async hangleLogin() {
         if (this.loginForm.invalid) {

@@ -1,36 +1,44 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>Login</mat-card-title>
-    </mat-card-header>
+<div class="min-h-screen flex flex-col lg:flex-row bg-gray-50">
+    <!-- Логотип -->
+    <div class="w-full lg:w-3/5 flex items-center justify-center p-6">
+        <img src="/vite.svg" alt="Logo" class="w-32 lg:w-64"/>
+    </div>
 
-    <mat-card-content>
-        <form [formGroup]="loginForm" (ngSubmit)="hangleLogin()">
-            <!-- Email Field -->
-            <mat-form-field appearance="outline">
+    <!-- Форма -->
+    <div class="w-full lg:w-2/5 flex items-center justify-center px-6 py-12 bg-white shadow-lg">
+        <form [formGroup]="loginForm" (ngSubmit)="hangleLogin()" class="w-full max-w-md space-y-6">
+            <h2 class="text-2xl font-semibold text-gray-700 text-center">Sign in to your account</h2>
+
+            <mat-form-field appearance="outline" class="w-full">
                 <mat-label>Email</mat-label>
                 <input matInput
                        type="email"
                        formControlName="email"
-                       placeholder="user@example.com">
+                       [errorStateMatcher]="matcher"
+                       placeholder="user@example.com"/>
+                @if (loginForm.get('email')!!.hasError('email') && !loginForm.get('email')!!.hasError('required')) {
+                    <mat-error>Please enter a valid email address</mat-error>
+                }
+                @if (loginForm.get('email')!!.hasError('required')) {
+                    <mat-error>Email is required</mat-error>
+                }
             </mat-form-field>
 
-            <!-- Password Field -->
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" class="w-full">
                 <mat-label>Password</mat-label>
                 <input matInput
                        type="password"
                        formControlName="password"
-                       placeholder="••••••••">
+                       placeholder="••••••••"/>
             </mat-form-field>
 
-            <!-- Submit Button -->
             <button mat-raised-button
                     color="primary"
                     type="submit"
                     [disabled]="loginForm.invalid"
-                    class="submit-button">
+                    class="w-full py-2">
                 Login
             </button>
         </form>
-    </mat-card-content>
-</mat-card>
+    </div>
+</div>
