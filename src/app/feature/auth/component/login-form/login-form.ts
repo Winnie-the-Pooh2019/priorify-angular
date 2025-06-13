@@ -8,7 +8,7 @@ import {MatCardHeader, MatCardModule} from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {ErrorStateMatcher} from '@angular/material/core';
 
 @Component({
@@ -21,6 +21,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
+        NgOptimizedImage,
     ],
     providers: [
 
@@ -28,7 +29,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
         AuthService
     ],
     templateUrl: './login-form.html',
-    styleUrl: './login-form.scss'
+    styleUrl: './login-form.css'
 })
 export class LoginForm {
     loginForm = new FormGroup({

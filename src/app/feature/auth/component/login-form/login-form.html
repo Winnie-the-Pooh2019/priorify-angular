@@ -1,44 +1,47 @@
-<div class="min-h-screen flex flex-col lg:flex-row bg-gray-50">
+<div class="flex flex-col md:flex-row w-screen h-screen transition-all  duration-300 px-4 py-4 md:px-5 md:py-0">
     <!-- Логотип -->
-    <div class="w-full lg:w-3/5 flex items-center justify-center p-6">
-        <img src="/vite.svg" alt="Logo" class="w-32 lg:w-64"/>
+    <div class="w-full md:w-3/5 flex justify-center py-6 md:py-0 transition-all duration-300">
+        <img ngSrc="/vite.svg" alt="Logo" class="aspect-square w-1/3 object-contain" height="32"
+             width="32"/>
     </div>
 
     <!-- Форма -->
-    <div class="w-full lg:w-2/5 flex items-center justify-center px-6 py-12 bg-white shadow-lg">
-        <form [formGroup]="loginForm" (ngSubmit)="hangleLogin()" class="w-full max-w-md space-y-6">
-            <h2 class="text-2xl font-semibold text-gray-700 text-center">Sign in to your account</h2>
+    <div class="w-full h-auto md:w-2/5 flex items-center justify-center py-6 md:py-0 transition-all duration-300 px-4">
+        <form [formGroup]="loginForm" (ngSubmit)="hangleLogin()" class="w-full max-w-sm bg-white p-8 rounded-lg shadow-lg space-y-4">
+            <h2 class="text-2xl font-semibold text-center bg-red">Sign in to your account</h2>
 
-            <mat-form-field appearance="outline" class="w-full">
-                <mat-label>Email</mat-label>
-                <input matInput
-                       type="email"
-                       formControlName="email"
-                       [errorStateMatcher]="matcher"
-                       placeholder="user@example.com"/>
-                @if (loginForm.get('email')!!.hasError('email') && !loginForm.get('email')!!.hasError('required')) {
-                    <mat-error>Please enter a valid email address</mat-error>
-                }
-                @if (loginForm.get('email')!!.hasError('required')) {
-                    <mat-error>Email is required</mat-error>
-                }
-            </mat-form-field>
+            <div>
+                <mat-form-field appearance="outline" class="w-full mb-3 lg:mb-5">
+                    <mat-label>Email</mat-label>
+                    <input matInput
+                           type="email"
+                           formControlName="email"
+                           [errorStateMatcher]="matcher"
+                           placeholder="user@example.com"/>
+                    @if (loginForm.get('email')!!.hasError('email') && !loginForm.get('email')!!.hasError('required')) {
+                        <mat-error>Please enter a valid email address</mat-error>
+                    }
+                    @if (loginForm.get('email')!!.hasError('required')) {
+                        <mat-error>Email is required</mat-error>
+                    }
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" class="w-full">
-                <mat-label>Password</mat-label>
-                <input matInput
-                       type="password"
-                       formControlName="password"
-                       placeholder="••••••••"/>
-            </mat-form-field>
+                <mat-form-field appearance="outline" class="w-full mb-3 lg:mb-5">
+                    <mat-label>Password</mat-label>
+                    <input matInput
+                           type="password"
+                           formControlName="password"
+                           placeholder="••••••••"/>
+                </mat-form-field>
 
-            <button mat-raised-button
-                    color="primary"
-                    type="submit"
-                    [disabled]="loginForm.invalid"
-                    class="w-full py-2">
-                Login
-            </button>
+                <button mat-raised-button
+                        color="primary"
+                        type="submit"
+                        [disabled]="loginForm.invalid"
+                        class="w-full py-2 mb-3 lg:mb-5">
+                    Login
+                </button>
+            </div>
         </form>
     </div>
 </div>

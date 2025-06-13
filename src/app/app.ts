@@ -5,7 +5,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 //   selector: 'app-root',
 //   imports: [RouterOutlet],
 //   templateUrl: './app.html',
-//   styleUrl: './app.scss'
+//   styleUrl: './app.css'
 // })
 // export class App {
 //   protected title = 'priorify-angular';
@@ -19,7 +19,7 @@ import {LoginForm} from './feature/auth/component/login-form/login-form';
 @Component({
     selector: 'app-home',
     template: `
-        <div>Home Page</div>
+        <h2 class="text-3xl font-bold underline">Hello world</h2>
     `,
 })
 export class Home {
