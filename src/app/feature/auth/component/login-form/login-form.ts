@@ -4,12 +4,13 @@ import {AuthService} from '../../service/auth.service';
 import {Router} from '@angular/router';
 
 // Angular Material Modules
-import {MatCardHeader, MatCardModule} from '@angular/material/card';
+import {MatCardModule} from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {ErrorStateMatcher} from '@angular/material/core';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
     selector: 'app-login-form',
@@ -22,6 +23,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
         MatInputModule,
         MatButtonModule,
         NgOptimizedImage,
+        MatIcon,
     ],
     providers: [
 
@@ -46,6 +48,13 @@ export class LoginForm {
             return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
         }
     };
+
+    hide = signal(true);
+
+    showPassword(event: MouseEvent) {
+        event.stopPropagation();
+        this.hide.set(!this.hide());
+    }
 
     async hangleLogin() {
         if (this.loginForm.invalid) {
