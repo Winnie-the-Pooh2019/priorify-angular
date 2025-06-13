@@ -1,7 +1,12 @@
+/*@import 'https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap';*/
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 @import '@angular/material/prebuilt-themes/azure-blue.css'; /* You can add global styles to this file, and also import other style files */
 
 @import "tailwindcss";
+
+/** {*/
+/*    font-family: 'Comfortaa Medium', sans-serif !important;*/
+/*}*/
 
 /*// fix for material/tailwind*/
 .mdc-notched-outline__notch {
