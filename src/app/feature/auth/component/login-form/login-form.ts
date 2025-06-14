@@ -3,7 +3,6 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm, ReactiveFormsModule,
 import {AuthService} from '../../service/auth.service';
 import {Router} from '@angular/router';
 
-// Angular Material Modules
 import {MatCardModule} from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -31,7 +30,7 @@ import {MatIcon} from '@angular/material/icon';
         AuthService
     ],
     templateUrl: './login-form.html',
-    styleUrl: './login-form.css'
+    styleUrl: './login-form.scss'
 })
 export class LoginForm {
     loginForm = new FormGroup({
