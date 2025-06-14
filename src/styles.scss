@@ -2,9 +2,10 @@
 @use './app/styles/material.scss';
 @use './app/styles/tailwind.css';
 
+html,
 body {
     height: 100%;
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
-    background-color: var(--mat-sys-background);
-    color: var(--mat-sys-on-background);
+}
+body {
+    font-family: Comfortaa, Roboto, sans-serif;
 }

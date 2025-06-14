@@ -1,14 +1,65 @@
 @import "tailwindcss";
 
-/** {*/
-/*    font-family: 'Comfortaa Medium', sans-serif !important;*/
-/*}*/
-
-/*// fix for material/tailwind*/
 .mdc-notched-outline__notch {
     border-style: none;
 }
 
 .mat-mdc-icon-button {
     line-height: normal;
+}
+
+@theme {
+    /*Colors*/
+    --color-pr: var(--mat-sys-primary);
+    --color-prc: var(--mat-sys-primary-container);
+    --color-sec: var(--mat-sys-secondary);
+    --color-secc: var(--mat-sys-secondary-container);
+    --color-ter: var(--mat-sys-tertiary);
+    --color-terc: var(--mat-sys-tertiary-container);
+
+    --color-bg: var(--mat-sys-background);
+    --color-sc: var(--mat-sys-surface-container);
+    --color-sclst: var(--mat-sys-surface-container-lowest);
+    --color-scl: var(--mat-sys-surface-container-low);
+    --color-schst: var(--mat-sys-surface-container-highest);
+    --color-sch: var(--mat-sys-surface-container-high);
+    --color-sh: var(--mat-sys-shadow);
+    --color-s: var(--mat-sys-surface);
+
+    /*On colors*/
+    --color-on-bg: var(--mat-sys-on-background);
+    --color-on-s: var(--mat-sys-on-surface);
+    --color-on-pr: var(--mat-sys-on-primary);
+    --color-on-sec: var(--mat-sys-on-secondary);
+    --color-on-ter: var(--mat-sys-on-tertiary);
+    --color-on-secc: var(--mat-sys-on-secondary-container);
+    --color-on-terc: var(--mat-sys-on-tertiary-container);
+
+
+    /*Shadow*/
+    --shadow-lv0: var(--mat-sys-level0);
+    --shadow-lv1: var(--mat-sys-level1);
+    --shadow-lv2: var(--mat-sys-level2);
+    --shadow-lv3: var(--mat-sys-level3);
+    --shadow-lv4: var(--mat-sys-level4);
+    --shadow-lv5: var(--mat-sys-level5);
+
+
+    /*Text*/
+    --text-ds: var(--mat-sys-display-small);
+    --text-dm: var(--mat-sys-display-medium);
+    --text-dl: var(--mat-sys-display-large);
+
+    --text-bs: var(--mat-sys-body-small);
+    --text-bm: var(--mat-sys-body-medium);
+    --text-bl: var(--mat-sys-body-large);
+
+    --text-hs: var(--mat-sys-headline-small);
+    --text-hm: var(--mat-sys-headline-medium);
+    --text-hl: var(--mat-sys-headline-large);
+
+    --text-ls: var(--mat-sys-label-small);
+    --text-lm: var(--mat-sys-label-medium);
+    --text-ll: var(--mat-sys-label-large);
+
 }

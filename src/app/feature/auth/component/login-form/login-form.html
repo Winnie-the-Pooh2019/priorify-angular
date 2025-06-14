@@ -1,4 +1,4 @@
-<div class="flex flex-col md:flex-row w-screen h-screen transition-all  duration-300 px-4 py-4 md:px-5 md:py-0">
+<div class="bg-bg flex flex-col md:flex-row w-screen h-screen transition-all  duration-300 px-4 py-4 md:px-5 md:py-0">
     <!-- Логотип -->
     <div class="w-full md:w-3/5 flex justify-center py-6 md:py-0 transition-all duration-300">
         <img ngSrc="/vite.svg" alt="Logo" class="aspect-square w-1/3 object-contain" height="32"
@@ -8,10 +8,10 @@
     <!-- Форма -->
     <div class="w-full h-auto md:w-2/5 flex items-center justify-center py-6 md:py-0 transition-all duration-300 px-4">
         <form [formGroup]="loginForm" (ngSubmit)="hangleLogin()"
-              class="max-w-sm lg:max-w-lg bg-white p-8 rounded-lg shadow-lg space-y-4">
+              class="bg-sclst max-w-sm lg:max-w-lg p-8 rounded-lg shadow-lv2 space-y-4">
             <h2 class="
-                text-2xl lg:text-3xl font-semibold text-center
-                mb-3 md:mb-4 lg:mb-5"
+                text-hs text-on-s lg:text-hm font-semibold text-center
+                mb-4 lg:mb-5"
             >Sign in to your account</h2>
 
             <div>
@@ -37,7 +37,7 @@
                            formControlName="password"
                            placeholder="••••••••"/>
                     <button
-                        class="mr-1 "
+                        class="mr-2"
                         type="button"
                         matIconButton
                         matSuffix
@@ -49,7 +49,7 @@
                     </button>
                 </mat-form-field>
 
-                <button mat-raised-button
+                <button matButton="outlined"
                         color="primary"
                         type="submit"
                         [disabled]="loginForm.invalid"
