@@ -1,9 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {AuthRepository} from '../repository/auth.repository';
-import {StorageService} from '../../../shared/services/storage.service';
+import {StorageService} from '../../../core/data/storage/storage.service';
 import {UserCredentials} from '../model/user-credentials';
 import {NoRefreshTokenError} from '../error/no-refresh-token.error';
-import {NoAccessTokenError} from '../error/no-access-token.error';
 
 @Injectable({
     providedIn: 'root'
@@ -49,6 +48,7 @@ export class AuthService {
 
         this.removeCredentials();
     }
+
 
     isLoggedIn(): boolean {
         const credentials = this.getCredentials();

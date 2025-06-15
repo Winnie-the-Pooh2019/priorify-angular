@@ -25,6 +25,7 @@
     --color-sch: var(--mat-sys-surface-container-high);
     --color-sh: var(--mat-sys-shadow);
     --color-s: var(--mat-sys-surface);
+    --color-sb: var(--mat-sys-surface-bright);
 
     /*On colors*/
     --color-on-bg: var(--mat-sys-on-background);
@@ -43,6 +44,23 @@
     --shadow-lv3: var(--mat-sys-level3);
     --shadow-lv4: var(--mat-sys-level4);
     --shadow-lv5: var(--mat-sys-level5);
+
+    /*Outline*/
+    --outline-0: 0px;
+    --outline-0--style: solid;
+    --outline-0--color: var(--mat-sys-outline);
+
+    --outline-1: 1px;
+    --outline-1--style: solid;
+    --outline-1--color: var(--mat-sys-outline);
+
+    --outline-2: 2px;
+    --outline-2--style: solid;
+    --outline-2--color: var(--mat-sys-outline);
+
+    --outline-3: 3px;
+    --outline-3--style: solid;
+    --outline-3--color: var(--mat-sys-outline);
 
 
     /*Text*/
@@ -93,4 +111,16 @@
     --text-ll: var(--mat-sys-label-large-size);
     --text-ll--line-height: var(--mat-sys-label-large-line-height);
     --text-ll--font-weight: var(--mat-sys-label-large-weight);
+
+    --text-ts: var(--mat-sys-title-small-size);
+    --text-ts--line-height: var(--mat-sys-title-small-line-height);
+    --text-ts--font-weight: var(--mat-sys-title-small-weight);
+
+    --text-tm: var(--mat-sys-title-medium-size);
+    --text-tm--line-height: var(--mat-sys-title-medium-line-height);
+    --text-tm--font-weight: var(--mat-sys-title-medium-weight);
+
+    --text-tl: var(--mat-sys-title-large-size);
+    --text-tl--line-height: var(--mat-sys-title-large-line-height);
+    --text-tl--font-weight: var(--mat-sys-title-large-weight);
 }

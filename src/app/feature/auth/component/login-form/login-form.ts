@@ -65,7 +65,7 @@ export class LoginForm {
             this.loginForm.value.password!!
         );
 
-        this.router.navigate(['/']).then(() => {
+        this.router.navigate(['']).then(() => {
             console.log('logged in');
         });
     }
