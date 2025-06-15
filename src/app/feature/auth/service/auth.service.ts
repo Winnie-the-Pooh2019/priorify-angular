@@ -42,9 +42,13 @@ export class AuthService {
     }
 
     async logout() {
-        await this.authRepository.logout();
-
-        this.removeCredentials();
+        try {
+            await this.authRepository.logout();
+        } catch (error) {
+            console.error('Backend logout error:', error);
+        } finally {
+            this.removeCredentials();
+        }
     }
 
 

@@ -9,10 +9,7 @@ export class AuthGuard implements CanActivate {
     authService = inject(AuthService);
     router = inject(Router);
 
-    canActivate(
-        route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
-    ): boolean | UrlTree {
+    async canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Promise<boolean | UrlTree> {
         if (this.authService.getCredentials()) {
             console.log('got credentials');
 
@@ -21,16 +18,14 @@ export class AuthGuard implements CanActivate {
                 return true;
             }
 
-            this.authService.refresh()
-                .then(() => {
-                    console.log('credentials refreshed');
-                    this.router.navigate([state.url]);
-                })
-                .catch(() => {
-                    console.log('Refresh credentials error');
-                });
-
-            return this.router.createUrlTree(['/login']);
+            try {
+                await this.authService.refresh();
+                console.log('credentials refreshed');
+                return true;
+            } catch (error) {
+                console.log('Refresh credentials error');
+                return this.router.createUrlTree(['/login']);
+            }
         }
 
         console.log('no credentials found');

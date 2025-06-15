@@ -2,6 +2,7 @@ import {Routes} from '@angular/router';
 import {AuthGuard} from './core/guard/auth.guard';
 import {LoginForm} from './feature/auth/component/login-form/login-form';
 import {LayoutComponent} from './shared/components/layout/layout.component';
+import {GuestGuard} from './core/guard/guest.guard';
 
 export const routes: Routes = [
     {
@@ -43,11 +44,11 @@ export const routes: Routes = [
     },
     {
         path: 'login',
-        component: LoginForm
+        component: LoginForm,
+        canActivate: [GuestGuard]
     },
     {
         path: '**',
         redirectTo: ''
     }
-
 ];
