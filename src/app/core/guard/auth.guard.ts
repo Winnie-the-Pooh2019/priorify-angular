@@ -13,14 +13,27 @@ export class AuthGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): boolean | UrlTree {
-        if (this.authService.isLoggedIn()) {
-            return true;
+        if (this.authService.getCredentials()) {
+            console.log('got credentials');
+
+            if (this.authService.isLoggedIn()) {
+                console.log('credentials are valid');
+                return true;
+            }
+
+            this.authService.refresh()
+                .then(() => {
+                    console.log('credentials refreshed');
+                    this.router.navigate([state.url]);
+                })
+                .catch(() => {
+                    console.log('Refresh credentials error');
+                });
+
+            return this.router.createUrlTree(['/login']);
         }
 
-        this.authService.redirectUrl = state.url;
-
-        this.router.navigate(['/login']);
-
-        return false;
+        console.log('no credentials found');
+        return this.router.createUrlTree(['/login']);
     }
 }

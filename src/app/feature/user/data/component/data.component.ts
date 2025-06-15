@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-component',
+  selector: 'user-data-component',
   imports: [],
   templateUrl: './data.component.html',
   styleUrl: './data.component.scss'

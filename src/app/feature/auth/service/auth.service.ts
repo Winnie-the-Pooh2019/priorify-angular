@@ -11,8 +11,6 @@ export class AuthService {
     private authRepository = inject(AuthRepository);
     private storageService = inject(StorageService);
 
-    redirectUrl = '';
-
     async login(email: string, password: string): Promise<UserCredentials> {
         const loginResponse = await this.authRepository.login({email, password});
 
@@ -71,7 +69,7 @@ export class AuthService {
         this.storageService.setItem('credentials', userCredentials);
     }
 
-    private getCredentials(): UserCredentials | null {
+    getCredentials(): UserCredentials | null {
         return this.storageService.getItem('credentials');
     }
 

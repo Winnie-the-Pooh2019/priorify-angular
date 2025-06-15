@@ -31,7 +31,7 @@ export class MockAuthRepository extends AuthRepository {
 
         const accessToken = randomUUID();
         const refreshToken = randomUUID();
-        const expiresIn = 900;
+        const expiresIn = 6;
 
         return {
             accessToken: accessToken,
@@ -43,7 +43,7 @@ export class MockAuthRepository extends AuthRepository {
     override async refresh({refreshToken}: RefreshRequestDto): Promise<LoginResponseDto> {
         const accessToken = randomUUID();
         const newRefreshToken = randomUUID();
-        const expiresIn = 900;
+        const expiresIn = 6;
 
         return {
             accessToken: accessToken,
