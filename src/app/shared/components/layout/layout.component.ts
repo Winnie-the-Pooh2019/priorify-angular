@@ -4,7 +4,7 @@ import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
-import {MatIconButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {AuthService} from '../../../feature/auth/service/auth.service';
 
 @Component({
@@ -17,12 +17,13 @@ import {AuthService} from '../../../feature/auth/service/auth.service';
         MatSidenavModule,
         MatIconModule,
         MatListModule,
-        MatIconButton
+        MatIconButton,
+        MatButton
     ],
     providers: [
         AuthService
     ],
-    templateUrl: './layout.component.html',
+    templateUrl: './lay.component.html',
     styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent {
@@ -41,9 +42,13 @@ export class LayoutComponent {
         {label: 'Dashboard', icon: 'dashboard', route: '/dashboard'},
         {label: 'Data', icon: 'description', route: '/data'},
         {label: 'Topic Analysis', icon: 'analytics', route: '/topic-analysis'},
-        {label: 'Financial Analysis', icon: 'trending_up', route: '/financial-analysis'},
+        {label: 'Financial Analysisssssssssssssssssss', icon: 'trending_up', route: '/financial-analysis'},
         {label: 'Settings', icon: 'settings', route: '/settings'}
     ];
+
+    toggleSidebar() {
+        this.isCollapsed = !this.isCollapsed;
+    }
 
     async logout() {
         console.log('Logout clicked');
