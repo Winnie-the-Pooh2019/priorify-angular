@@ -1,11 +1,17 @@
 import {Component, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Router, RouterLink, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
-import {MatButton, MatIconButton} from '@angular/material/button';
 import {AuthService} from '../../../feature/auth/service/auth.service';
+
+interface MenuItem {
+    label: string;
+    icon: string;
+    route: string;
+    isSelected: boolean;
+}
 
 @Component({
     selector: 'app-layout',
@@ -17,13 +23,12 @@ import {AuthService} from '../../../feature/auth/service/auth.service';
         MatSidenavModule,
         MatIconModule,
         MatListModule,
-        MatIconButton,
-        MatButton
+        RouterLinkActive,
     ],
     providers: [
         AuthService
     ],
-    templateUrl: './lay.component.html',
+    templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent {
@@ -33,21 +38,27 @@ export class LayoutComponent {
     isCollapsed = false;
 
     user = {
-        name: 'John',
-        surname: 'Doe',
+        name: 'Надежда',
+        surname: 'Шамеева',
         photoUrl: 'https://via.placeholder.com/40'
     };
 
-    menuItems = [
-        {label: 'Dashboard', icon: 'dashboard', route: '/dashboard'},
-        {label: 'Data', icon: 'description', route: '/data'},
-        {label: 'Topic Analysis', icon: 'analytics', route: '/topic-analysis'},
-        {label: 'Financial Analysisssssssssssssssssss', icon: 'trending_up', route: '/financial-analysis'},
-        {label: 'Settings', icon: 'settings', route: '/settings'}
+    menuItems: MenuItem[] = [
+        {label: 'Дашборд', icon: 'dashboard', route: '/dashboard', isSelected: false},
+        {label: 'Данные', icon: 'description', route: '/data', isSelected: false},
+        {label: 'Анализ тем', icon: 'analytics', route: '/topic-analysis', isSelected: false},
+        {label: 'Финансовый анализ', icon: 'trending_up', route: '/financial-analysis', isSelected: false},
+        {label: 'Настройки', icon: 'settings', route: '/settings', isSelected: false}
     ];
 
     toggleSidebar() {
         this.isCollapsed = !this.isCollapsed;
+    }
+
+    clickMenuItem(item: MenuItem) {
+        for (const menuItem of this.menuItems) {
+            menuItem.isSelected = menuItem === item;
+        }
     }
 
     async logout() {

@@ -1,71 +1,84 @@
-<mat-sidenav-container class="
-    h-screen w-screen
-    flex flex-row
-    transition-all duration-300
-">
-    <mat-sidenav opened="true" mode="side" class="
-        h-full w-3/9
-        flex flex-col items-center
-    ">
-        <!-- Entire sidenav content -->
-        <div class="
-            w-full h-full
-            flex flex-col items-center
-        ">
-            <div class="
-                h-auto w-full flex flex-row items-center bg-sclst px-4 py-4 gap-3
-            ">
-                <div>
+<div class="sidebar-container
+h-screen w-screen flex flex-row transition-all duration-300">
+
+    <!--    Entire sidenav panel-->
+    <div class="h-full flex flex-col items-center w-auto">
+
+        <div class="h-full px-4 md:px-4 py-4 flex flex-col items-center">
+
+            <!--        User profile panel-->
+            <div class="w-full bg-sclst h-14 md:h-18 flex flex-row items-center"
+                 [class.gap-3]="!isCollapsed">
+                <div [class.hidden]="isCollapsed">
                     <img [src]="user.photoUrl" [alt]="' '" class="w-14 h-14 md:w-18 md:h-18
                         rounded-full object-cover
                         bg-sch
                         text-ll
                         flex-1 flex items-center justify-center">
                 </div>
-                <div class="flex-1">
-                    <div class="text-on-s text-tm">{{ user.name }} {{ user.surname }}</div>
+                <div class="flex-1 text-on-s text-tm w-auto"
+                     [class.hidden]="isCollapsed">{{ user.name }} {{ user.surname }}
                 </div>
                 <div>
-                    <button matIconButton="outlined">
-                        <mat-icon>keyboard_arrow_left</mat-icon>
+                    <button
+                        class="flex h-12 md:h-14 aspect-square justify-center items-center p-3 md:p-4 rounded-full hover:bg-sc active:bg-schst transition-all"
+                        (click)="toggleSidebar()">
+                        <mat-icon [ngStyle]="{
+                            'color': 'var(--mat-sys-on-surface)'
+                        }">
+                            {{ isCollapsed ? 'chevron_right' : 'chevron_left' }}
+                        </mat-icon>
                     </button>
                 </div>
             </div>
-            <div class="w-full flex-1 flex flex-col items-start px-4 bg-sclst">
-                <div class="
-                    mt-4
-                    w-full
-                ">
-                    <mat-nav-list class="nav-menu
-                        space-y-4
-                    ">
-                        @for (item of menuItems; track item.label) {
-                            <mat-list-item
-                                class="nav-item"
-                                [routerLink]="item.route"
-                                routerLinkActive="active">
-                                <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-                                <span matListItemTitle>{{ item.label }}</span>
-                            </mat-list-item>
-                        }
-                    </mat-nav-list>
-                </div>
 
-                <div class="
-                    flex-1 w-full
-                    flex items-end justify-center
-                ">
-                    <mat-nav-list class="w-full">
-                        <mat-list-item class="nav-item logout-item" (click)="logout()">
-                            <mat-icon matListItemIcon>logout</mat-icon>
-                            <span matListItemTitle>Logout</span>
-                        </mat-list-item>
-                    </mat-nav-list>
-                </div>
+            <!--        Navigation bar-->
+            <div class="w-full flex flex-col items-start bg-sclst">
+                <nav class="mt-4 w-full space-y-4">
+                    @for (item of menuItems; track item.label) {
+                        <a
+                            [routerLink]="item.route"
+                            class="flex h-12 md:h-14 items-center p-3 md:p-4 rounded-full hover:bg-sc active:bg-schst transition-all"
+                            routerLinkActive="bg-sch"
+                            [class.bg-sch]="item.isSelected"
+                            [class.flex-row]="!isCollapsed"
+                            [class.justify-center]="isCollapsed"
+                        >
+                            <mat-icon [ngStyle]="{
+                                'color': 'var(--mat-sys-on-surface)'
+                            }">
+                                {{ item.icon }}
+                            </mat-icon>
+                            @if (!isCollapsed) {
+                                <span class="ml-3">{{ item.label }}</span>
+                            }
+                        </a>
+                    }
+                </nav>
+            </div>
+
+            <div class="w-full h-auto flex flex-1 flex-col items-start justify-end bg-sclst">
+                <nav class="mt-4 w-full space-y-4">
+                        <button
+                            (click)="logout()"
+                            class="w-full flex h-12 md:h-14 items-center p-3 md:p-4 rounded-full hover:bg-sc active:bg-schst transition-all"
+                            [class.flex-row]="!isCollapsed"
+                            [class.justify-center]="isCollapsed"
+                        >
+                            <mat-icon [ngStyle]="{
+                                'color': 'var(--mat-sys-on-surface)'
+                            }">logout</mat-icon>
+                            @if (!isCollapsed) {
+                                <span class="ml-3">Выйти</span>
+                            }
+                        </button>
+                </nav>
             </div>
         </div>
-    </mat-sidenav>
-    <mat-sidenav-content class="bg-bg">
+    </div>
+
+    <!--    Content place-->
+    <div class="bg-bg flex-1">
         <router-outlet></router-outlet>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+    </div>
+</div>
