@@ -38,7 +38,7 @@ h-screen w-screen flex flex-row transition-all duration-300">
                     @for (item of menuItems; track item.label) {
                         <a
                             [routerLink]="item.route"
-                            class="flex h-12 md:h-14 items-center border p-3 md:p-4 rounded-full hover:bg-sc active:bg-schst transition-all"
+                            class="flex h-12 md:h-14 items-center p-3 md:p-4 rounded-full hover:bg-sc active:bg-schst transition-all"
                             routerLinkActive="bg-sch"
                             [class.bg-sch]="item.isSelected"
                             [class.flex-row]="!isCollapsed"

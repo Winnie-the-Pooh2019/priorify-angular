@@ -22,6 +22,10 @@ export class UserService {
         return this.setUser(userInfo);
     }
 
+    logout() {
+        this.storageService.removeItem('user');
+    }
+
     private setUser(
         userInfo: UserInfoResponse
     ) {

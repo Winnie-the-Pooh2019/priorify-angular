@@ -24,7 +24,7 @@ export class AuthService {
         const refreshToken = this.getCredentials()?.refreshToken
 
         if (refreshToken) {
-            const loginResponse = await this.authRepository.refresh({refreshToken});
+            const loginResponse = await this.authRepository.refresh();
 
             return this.setCredentials(loginResponse);
         }
