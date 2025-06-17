@@ -1,1 +1,28 @@
-<p>dashboard component works!</p>
+<div class="flex flex-col gap-7 p-7">
+    <div class="h-25 w-full flex flex-row justify-between items-center border-1 border-on-s rounded-xl text-hs px-4">
+        <span>Недавнее</span>
+        <button (click)="togglePanels()"
+            class="w-auto flex h-12 aspect-square md:h-14 items-center p-3 md:p-4 rounded-full hover:bg-sc active:bg-schst transition-all"
+        >
+            <mat-icon [ngStyle]="{
+                                'color': 'var(--mat-sys-on-surface)'
+                            }">{{ showPanels ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+        </button>
+    </div>
+
+<!--    контейнер с панелями задач-->
+    @if(showPanels) {
+        <div class="flex-1 flex flex-row gap-4">
+            @for (card of cards; track card.id) {
+                <app-card
+                    [title]="card.title"
+                    [subtitle]="card.subtitle"
+                    [links]="card.links"
+                    [cardClass]="'w-full max-w-xl min-w-[20rem] min-h-[20rem]'"
+                    (hide)="removeCard(card.id)"
+                >
+                </app-card>
+            }
+        </div>
+    }
+</div>

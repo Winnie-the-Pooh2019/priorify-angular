@@ -1,0 +1,33 @@
+<mat-card [class]="cardClass + ' app-prior-card outline-1'" appearance="outlined">
+    <mat-card-header>
+        <mat-card-title>{{ title }}</mat-card-title>
+        <mat-card-subtitle>{{ subtitle }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <div class="w-[90%] mx-auto border-t border-on-s my-4"></div>
+
+    <mat-card-content class="flex-1">
+        <ul class="flex flex-col gap-4">
+            @for (link of links; track link.url) {
+                <li>
+                    <a [href]="link.url" target="_blank" rel="noopener noreferrer"
+                       class="flex items-center gap-2  hover:underline">
+                        <mat-icon>link</mat-icon>
+                        {{ link.url }}
+                    </a>
+                </li>
+            }
+        </ul>
+    </mat-card-content>
+
+    <div class="w-[90%] mx-auto border-t border-on-s my-3"></div>
+
+    <div class="flex justify-center items-end my-2">
+        <mat-card-actions>
+            <button mat-stroked-button color="primary" [class]="buttonClass + ' w-4/5'" (click)="onHideClick()">
+                Скрыть
+            </button>
+        </mat-card-actions>
+    </div>
+
+</mat-card>
