@@ -51,7 +51,7 @@ export class LayoutComponent implements OnInit {
     isCollapsed = false;
 
     menuItems: MenuItem[] = [
-        {label: 'Дашборд', icon: 'dashboard', route: 'dashboard', isSelected: false},
+        {label: 'Главная', icon: 'dashboard', route: 'dashboard', isSelected: false},
         {label: 'Данные', icon: 'description', route: 'data', isSelected: false},
         {label: 'Анализ тем', icon: 'analytics', route: 'topic-analysis', isSelected: false},
         {label: 'Финансовый анализ', icon: 'trending_up', route: 'financial-analysis', isSelected: false},
