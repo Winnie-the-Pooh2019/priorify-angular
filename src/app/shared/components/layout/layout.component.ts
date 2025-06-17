@@ -1,10 +1,11 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {AuthService} from '../../../feature/auth/service/auth.service';
+import {UserService} from '../../../feature/user/service/user.service';
 
 interface MenuItem {
     label: string;
@@ -26,22 +27,28 @@ interface MenuItem {
         RouterLinkActive,
     ],
     providers: [
-        AuthService
+        AuthService,
+        UserService
     ],
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent {
-    router = inject(Router);
-    authService = inject(AuthService);
+export class LayoutComponent implements OnInit {
+    private router = inject(Router);
+    private authService = inject(AuthService);
+    private userService = inject(UserService);
+
+    protected user!: User;
+
+    ngOnInit() {
+        this.userService.getUserInfo()
+            .then(user => {
+                this.user = user;
+                console.log(`user in layout component: ${JSON.stringify(this.user)}`);
+            });
+    }
 
     isCollapsed = false;
-
-    user = {
-        name: 'Надежда',
-        surname: 'Шамеева',
-        photoUrl: 'https://via.placeholder.com/40'
-    };
 
     menuItems: MenuItem[] = [
         {label: 'Дашборд', icon: 'dashboard', route: '/dashboard', isSelected: false},
@@ -53,12 +60,6 @@ export class LayoutComponent {
 
     toggleSidebar() {
         this.isCollapsed = !this.isCollapsed;
-    }
-
-    clickMenuItem(item: MenuItem) {
-        for (const menuItem of this.menuItems) {
-            menuItem.isSelected = menuItem === item;
-        }
     }
 
     async logout() {

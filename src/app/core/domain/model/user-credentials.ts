@@ -1,6 +1,7 @@
 export interface UserCredentials {
+    email: string;
+    role: string;
     accessToken: string;
     refreshToken: string;
-    issuedAt: number;
     expiresIn: number;
 }

@@ -1,0 +1,498 @@
+openapi: "3.0.0"
+info:
+  version: "1.0"
+  title: "Priorify - OpenAPI 3.0"
+  description: 
+    Документация API для проекта
+servers:
+  - url: http://localhost:8000/api/v1
+tags:
+  - name: auth 🔒
+    description: Авторизация и регистрация
+  - name: users 👤
+    description: Управление пользователями
+  - name: collections 🗂️
+    description: Сбор данных
+  - name: analyzes 🔎
+    description: Выявление проблем
+  - name: finances 💰
+    description: Распределение средств
+
+paths:
+
+  /auth/login:
+    post:
+      tags:
+        - auth 🔒
+      summary: Авторизация пользователей
+      operationId: authLogin
+      requestBody: 
+        description: Авторизация пользователей
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginCredentials'
+      responses:
+        '200':
+          description: Пользователь авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+
+  /auth/logout:
+    post:
+      tags:
+        - auth 🔒
+      summary: Выход из системы
+      operationId: authLogout
+      responses:
+        '200':
+          description: Пользователь успешно вышел из системы
+      security:
+        - bearedHttpAuthentification: []
+
+  /auth/refresh:
+    post:
+      tags:
+        - auth 🔒
+      summary: Обновление токена
+      operationId: authRefresh 
+      requestBody:
+        description: Токен для обновления
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshToken'
+      responses:
+        '200':
+          description: Токен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+
+  /auth/me:
+    get:
+      tags:
+        - auth 🔒
+      summary: Получение информации о пользователе
+      operationId: authMe
+      responses:
+        '200':
+          description: Информация о пользователе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+      security:
+        - bearedHttpAuthentification: []
+            
+  /users:
+    post:
+      tags:
+        - users 👤
+      summary: Регистрация пользователя администратором
+      operationId: users
+      requestBody:
+        description: Информация о пользователе
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUser'
+      responses:
+        '200':
+          description: Пользователь зарегистрирован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreate'
+      security:
+        - bearedHttpAuthentification: []
+
+  /collections:
+    post:
+      tags:
+        - collections 🗂️
+      summary: Создание коллекции данных из соцсетей
+      operationId: postCollections
+      requestBody:
+        description: Параметры для создания сбора
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDataCollection'
+      responses:
+        '201':
+          description: Запрос на сбор данных успешно обработан
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/DataCollectionPreview'
+      security:
+        - bearedHttpAuthentification: []
+    get:
+      tags:
+        - collections 🗂️
+      summary: Получение коллекций данных
+      operationId: getCollections
+      responses:
+        '200':
+          description: Успешно получены данные
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataCollectionPreview'
+
+  /collections/{collectionId}:
+    parameters:
+      - name: collectionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+    get:
+      tags:
+        - collections 🗂️
+      summary: Получение информации о коллекции
+      responses:
+        '200': 
+          description: Информация о коллекции успешно получена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataCollectionFull'
+      security:
+        - bearedHttpAuthentification: []
+    delete:
+      tags:
+        - collections 🗂️
+      summary: Удаление коллекции данных
+      responses:
+        '204':
+          description: Коллекция успешно удалена
+
+  /analyzes:
+    post:
+      tags:
+        - analyzes 🔎
+      summary: Создание анализа проблем
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/CreateAnalysis'
+
+
+
+
+components:
+  schemas:
+    RegisterUser:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Александр
+        lastName:
+          type: string
+          example: Иванов
+        email:
+          type: string
+          example: alexander@email.com
+        password:
+          type: string
+          example: qwerty123
+        role:
+          type: string
+          default: analyst
+          enum:
+            - analyst
+    UserCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        firstName:
+          type: string
+          example: Александр
+        lastName:
+          type: string
+          example: Иванов
+        email:
+          type: string
+          example: alexander@email.com
+        password:
+          type: string
+          example: qwerty123
+        role:
+          type: string
+          default: analyst
+          enum:
+            - analyst
+            - admin
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        firstName:
+          type: string
+          example: Александр
+        lastName:
+          type: string
+          example: Иванов
+        email:
+          type: string
+          example: alexander@email.com
+        role:
+          type: string
+          default: analyst
+          enum:
+            - analyst
+            - admin
+    LoginCredentials:
+      type: object
+      properties:
+        email:
+          type: string
+          example: alexander@email.com
+        password:
+          type: string
+          example: qwerty123
+    AuthToken:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"
+        refreshToken:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"
+        expiresIn:
+          type: integer
+          example: 900
+    RefreshToken:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"
+    AccessToken:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"
+
+    CreateDataCollection:
+      type: object
+      required:
+        - name
+        - startDate
+        - endDate
+        - sources
+      properties:
+        name:
+          type: string
+          example: Сбор данных по Кемерово
+        startDate:
+          type: string
+          format: date
+          example: 2002-02-20
+        endDate:
+          type: string
+          format: date
+          example: 2025-02-20
+        sources:
+          type: array
+          items:
+            type: object
+            properties:
+              socialNetwork:
+                type: string
+                enum:
+                  - vk
+                  - telegram
+              externalId:
+                type: string
+                example: incident_kuzbass
+    DataCollectionPreview: 
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Сбор данных по Кемерово
+        startDate:
+          type: string
+          format: date
+          example: 2002-02-20
+        endDate:
+          type: string
+          format: date
+          example: 2025-02-20
+        sources:
+          type: array
+          items:
+            type: object
+            properties:
+              social_network:
+                type: string
+                enum:
+                  - vk
+                  - telegram
+              external_id:
+                type: string
+                example: incident_kuzbass
+        createdAt:
+          type: string
+          format: date
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+            - pending
+            - progress
+            - completed
+            - failed
+            - canceled
+        totalPublications:
+          type: integer
+          example: 12000
+          nullable: true
+          description: Общее число собранных публикаций. Доступно только для завершённых сборов.
+        successfulRequestsPercent:
+          type: number
+          format: float
+          nullable: true
+          description: Процент успешных запросов. Доступен только для завершённых сборов.
+    DataCollectionFull: 
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Сбор данных по Кемерово
+        startDate:
+          type: string
+          format: date
+          example: 2002-02-20
+        endDate:
+          type: string
+          format: date
+          example: 2025-02-20
+        sources:
+          type: array
+          items:
+            type: object
+            properties:
+              social_network:
+                type: string
+                enum:
+                  - vk
+                  - telegram
+              external_id:
+                type: string
+                example: incident_kuzbass
+              status:
+                type: string
+                enum:
+                - pending
+                - progress
+                - completed
+                - failed
+                - canceled
+              startedAt:
+                type: string
+                format: date-time
+              finishedAt:
+                type: string
+                format: date-time
+              totalPublications:
+                type: integer
+                example: 6000
+                nullable: true
+        createdAt:
+          type: string
+          format: date
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+            - pending
+            - progress
+            - completed
+            - failed
+            - canceled
+        totalPublications:
+          type: integer
+          example: 12000
+          nullable: true
+          description: Общее число собранных публикаций. Доступно только для завершённых сборов.
+        successfulRequestsPercent:
+          type: number
+          format: float
+          nullable: true
+          description: Процент успешных запросов. Доступен только для завершённых сборов.
+    CreateAnalysis:
+      properties:
+        name: 
+          type: string
+          example: Анализ проблем по Кемерово
+        collectionId:
+          type: integer
+          example: 1
+        analysisType:
+          type: string
+          example: manual
+          enum:
+            - manual
+            - budgetClassifier
+            - auto
+        topics:
+          type: array
+          items:
+            type: string
+            example: здравоохранение
+          example: ["инфраструктура", "экология", "здравоохранение"]
+        topicCount:
+          type: integer
+          example: 10
+      discriminator:
+        propertyName: analysisType
+        mapping:
+          manual: '#/components/schemas/ManualAnalysis'
+    ManualAnalysis:
+      allOf:
+        - $ref: '#/components/schemas/CreateAnalysis'
+        - type: object
+          required:
+            - topics
+
+
+  securitySchemes:
+    bearedHttpAuthentification:
+      description: Bearer token using a JWT
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

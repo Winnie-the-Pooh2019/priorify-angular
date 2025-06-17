@@ -1,8 +1,10 @@
 import {inject, Injectable} from '@angular/core';
 import {AuthRepository} from '../repository/auth.repository';
 import {StorageService} from '../../../core/data/storage/storage.service';
-import {UserCredentials} from '../model/user-credentials';
+import {UserCredentials} from '../../../core/domain/model/user-credentials';
 import {NoRefreshTokenError} from '../error/no-refresh-token.error';
+import {JwtService} from '../../../core/security/jwt.service';
+import {LoginResponseDto} from '../dto/login-response.dto';
 
 @Injectable({
     providedIn: 'root'
@@ -10,17 +12,12 @@ import {NoRefreshTokenError} from '../error/no-refresh-token.error';
 export class AuthService {
     private authRepository = inject(AuthRepository);
     private storageService = inject(StorageService);
+    private jwtService = inject(JwtService);
 
     async login(email: string, password: string): Promise<UserCredentials> {
         const loginResponse = await this.authRepository.login({email, password});
 
-        this.setCredentials(
-            loginResponse.accessToken,
-            loginResponse.refreshToken,
-            loginResponse.expiresIn
-        );
-
-        return this.getCredentials()!!;
+        return this.setCredentials(loginResponse);
     }
 
     async refresh(): Promise<UserCredentials> {
@@ -29,13 +26,7 @@ export class AuthService {
         if (refreshToken) {
             const loginResponse = await this.authRepository.refresh({refreshToken});
 
-            this.setCredentials(
-                loginResponse.accessToken,
-                loginResponse.refreshToken,
-                loginResponse.expiresIn
-            );
-
-            return this.getCredentials()!!;
+            return this.setCredentials(loginResponse);
         }
 
         throw new NoRefreshTokenError();
@@ -59,18 +50,25 @@ export class AuthService {
             return false;
         }
 
-        return Date.now() < credentials.issuedAt + credentials.expiresIn;
+        return Date.now() < credentials.expiresIn;
     }
 
-    private setCredentials(accessToken: string, refreshToken: string, expiresIn: number) {
+    private setCredentials(loginResponse: LoginResponseDto) {
+        const jwtEmail: string = this.jwtService.getClaim(loginResponse.accessToken, 'email');
+        const jwtExpiresIn: number = this.jwtService.getClaim(loginResponse.accessToken, 'exp');
+        const jwtRole: string = this.jwtService.getClaim(loginResponse.accessToken, 'role');
+
         const userCredentials: UserCredentials = {
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-            issuedAt: Date.now(),
-            expiresIn: expiresIn * 1000
+            email: jwtEmail,
+            role: jwtRole,
+            accessToken: loginResponse.accessToken,
+            refreshToken: loginResponse.refreshToken,
+            expiresIn: jwtExpiresIn
         };
 
         this.storageService.setItem('credentials', userCredentials);
+
+        return userCredentials;
     }
 
     getCredentials(): UserCredentials | null {

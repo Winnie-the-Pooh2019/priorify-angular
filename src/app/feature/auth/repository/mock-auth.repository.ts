@@ -4,7 +4,6 @@ import {LoginRequestDto} from '../dto/login-request.dto';
 import {PasswordNotEqualError} from '../error/password-not-equal.error';
 import {v4 as randomUUID} from 'uuid';
 import {AuthRepository} from './auth.repository';
-import {RefreshRequestDto} from '../dto/refresh-request.dto';
 
 interface UserDao {
     email: string,
@@ -31,24 +30,20 @@ export class MockAuthRepository extends AuthRepository {
 
         const accessToken = randomUUID();
         const refreshToken = randomUUID();
-        const expiresIn = 6;
 
         return {
             accessToken: accessToken,
-            refreshToken: refreshToken,
-            expiresIn: expiresIn
+            refreshToken: refreshToken
         };
     }
 
-    override async refresh({refreshToken}: RefreshRequestDto): Promise<LoginResponseDto> {
+    override async refresh(): Promise<LoginResponseDto> {
         const accessToken = randomUUID();
         const newRefreshToken = randomUUID();
-        const expiresIn = 6;
 
         return {
             accessToken: accessToken,
-            refreshToken: newRefreshToken,
-            expiresIn: expiresIn
+            refreshToken: newRefreshToken
         };
     }
 
