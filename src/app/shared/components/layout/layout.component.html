@@ -59,19 +59,20 @@ h-screen w-screen flex flex-row transition-all duration-300">
 
             <div class="w-full h-auto flex flex-1 flex-col items-start justify-end bg-sclst">
                 <nav class="mt-4 w-full space-y-4">
-                        <button
-                            (click)="logout()"
-                            class="w-full flex h-12 md:h-14 items-center p-3 md:p-4 rounded-full hover:bg-sc active:bg-schst transition-all"
-                            [class.flex-row]="!isCollapsed"
-                            [class.justify-center]="isCollapsed"
-                        >
-                            <mat-icon [ngStyle]="{
+                    <button
+                        (click)="logout()"
+                        class="w-full flex h-12 md:h-14 items-center p-3 md:p-4 rounded-full hover:bg-sc active:bg-schst transition-all"
+                        [class.flex-row]="!isCollapsed"
+                        [class.justify-center]="isCollapsed"
+                    >
+                        <mat-icon [ngStyle]="{
                                 'color': 'var(--mat-sys-on-surface)'
-                            }">logout</mat-icon>
-                            @if (!isCollapsed) {
-                                <span class="ml-3">Выйти</span>
-                            }
-                        </button>
+                            }">logout
+                        </mat-icon>
+                        @if (!isCollapsed) {
+                            <span class="ml-3">Выйти</span>
+                        }
+                    </button>
                 </nav>
             </div>
         </div>

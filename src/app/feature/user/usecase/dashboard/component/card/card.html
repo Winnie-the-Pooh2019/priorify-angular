@@ -22,12 +22,10 @@
 
     <div class="w-[90%] mx-auto border-t border-on-s my-3"></div>
 
-    <div class="flex justify-center items-end my-2">
-        <mat-card-actions>
-            <button mat-stroked-button color="primary" [class]="buttonClass + ' w-4/5'" (click)="onHideClick()">
-                Скрыть
-            </button>
-        </mat-card-actions>
-    </div>
+    <mat-card-actions class="flex justify-center my-2">
+        <button mat-stroked-button color="primary" [class]="buttonClass + ' w-4/5'" (click)="onHideClick()">
+            Скрыть
+        </button>
+    </mat-card-actions>
 
 </mat-card>
